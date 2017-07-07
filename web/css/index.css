@@ -1,0 +1,24 @@
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.drop-zone {
+	display: block;
+	position: absolute;
+	top: 50px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0;
+	background-color: #eee;
+}
+
+.drop-zone table.default-message {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	color: #888;
+	font-size: xx-large;
+}
