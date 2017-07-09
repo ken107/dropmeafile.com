@@ -23,12 +23,16 @@
   <label for="fileupload" class="drop-zone">
     <table class="default-message" bind-statement-1="$(thisElem).toggle(#files.length == 0)">
       <tr>
-        <td>Drop files here or click to browse<td>
+        <td>
+          <div>Drop Files Here</div>
+          <div>or Click To Browse</div>
+        <td>
       </tr>
     </table>
     <div class="file-list">
-      <div bind-repeater-i="#files.length">
-        {{#files[#i].name}}
+      <div class="file" bind-repeater-i="#files.length" bind-var-file="#files[#i]">
+        <img bind-statement-1="thisElem.src = 'img/' + (extensions[#file.ext] || extensions.other).icon" />
+        <div class="filename">{{#file.name}}</div>
       </div>
     </div>
   </label>
@@ -47,17 +51,24 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Expires in {{#expireList[#expireIndex].desc}} <span class="caret"></span></a>
+          <li bind-statement-1="$(thisElem).toggle(#files.length == 0)">
+            <a href="#">Here to pick up?</a>
+          </li>
+          <li bind-statement-1="$(thisElem).toggle(#files.length > 0)">
+            <a href="#">Set pickup codes</a>
+          </li>
+          <li class="dropdown" bind-statement-1="$(thisElem).toggle(#files.length > 0)">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
             <ul class="dropdown-menu">
-              <li bind-repeater-i="#expireList.length" bind-var-expire="#expireList[#i]" bind-event-click="#expireIndex = #i">
+              <li bind-repeater-i="#expireList.length" bind-var-expire="#expireList[#i]" bind-event-click="#expireIndex = #i"
+                bind-statement-1="$(thisElem).toggleClass('active', #i==#expireIndex)">
                 <a href="#">{{#expire.desc}}</a>
               </li>
             </ul>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Share</a></li>
+          <li><a href="#">Copy URL</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
