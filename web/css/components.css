@@ -1,0 +1,19 @@
+
+.file {
+	position: relative;
+	display: inline-block;
+	margin: 5px;
+	text-align: center;
+	vertical-align: top;
+	cursor: pointer;
+}
+.file img {
+	width: 48px;
+}
+.file .filename {
+	margin-top: 5px;
+	width: 96px;
+	word-break: break-all;
+	overflow: hidden;
+	color: #666;
+}

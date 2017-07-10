@@ -1,6 +1,7 @@
 
 serviceUrl = "http://localhost:30112/dropmeafile";
 bucket = null;
+uploadProgress = null;
 extensions = {
   ai: { icon: "file_ai.png" },
   avi: { icon: "file_avi.png" },
@@ -37,9 +38,21 @@ expireList = [
 ]
 expireIndex = 4;
 
+var fileuploadOptions = {
+  dataType: 'json',
+  singleFileUploads: false,
+  progressall: onUploadProgress,
+  done: onUploadDone
+}
+
+
+function onUploadProgress(e, data) {
+  uploadProgress = data.loaded / data.total;
+}
 
 function onUploadDone(e, data) {
   bucket = data.result;
+  uploadProgress = null;
 }
 
 function selectFile(file) {

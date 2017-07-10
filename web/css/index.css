@@ -38,20 +38,11 @@ body {
 .file-list {
 	padding: 15px;
 }
-.file-list .file {
-	display: inline-block;
-	margin: 5px;
-	text-align: center;
-	vertical-align: top;
-	cursor: pointer;
-}
-.file-list img {
-	width: 48px;
-}
-.file-list .filename {
-	margin-top: 5px;
-	width: 96px;
-	word-break: break-all;
-	overflow: hidden;
-	color: #666;
+
+.progress {
+	position: absolute;
+	top: 50px;
+	left: 0;
+	right: 0;
+	height: 5px;
 }
