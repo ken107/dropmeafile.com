@@ -5,24 +5,34 @@ body {
 }
 
 .drop-zone {
-	display: block;
 	position: absolute;
 	top: 50px;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	margin: 0;
+	overflow: auto;
 	background-color: #eee;
-	font-weight: normal;
 }
-
 .drop-zone table.default-message {
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	text-align: center;
-	color: #bbb;
+	color: #ccc;
+	font-weight: bold;
 	font-size: xx-large;
 	text-shadow: 1px 1px 0 white;
+}
+
+.upload-button {
+	display: block;
+	position: absolute;
+	right: 30px;
+	bottom: 20px;
+	cursor: pointer;
+}
+.upload-button img {
+	width: 64px;
+	opacity: .3;
 }
 
 .file-list {
@@ -33,6 +43,7 @@ body {
 	margin: 5px;
 	text-align: center;
 	vertical-align: top;
+	cursor: pointer;
 }
 .file-list img {
 	width: 48px;

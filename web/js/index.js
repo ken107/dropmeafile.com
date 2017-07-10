@@ -1,5 +1,6 @@
 
-files = [];
+serviceUrl = "http://localhost:30112/dropmeafile";
+bucket = null;
 extensions = {
   ai: { icon: "file_ai.png" },
   avi: { icon: "file_avi.png" },
@@ -36,15 +37,38 @@ expireList = [
 ]
 expireIndex = 4;
 
-$(function () {
-  $('#fileupload').fileupload({
-    dataType: 'json',
-    done: function (e, data) {
-      data.result.result.forEach(function(file) {
-        var index = file.name.lastIndexOf(".");
-        if (index != -1) file.ext = file.name.substr(index+1).toLowerCase();
-      });
-      files.push.apply(files, data.result.result);
+
+function onUploadDone(e, data) {
+  bucket = data.result;
+}
+
+function selectFile(file) {
+  window.open(serviceUrl + "/" + bucket.id + "/" + file.id);
+}
+
+function openBucket(bucketId) {
+  $.get(serviceUrl + "/" + bucketId, function(result) {
+    bucket = result;
+  })
+}
+
+function getExtension(filename) {
+  var index = filename.lastIndexOf(".");
+  return index != -1 ? filename.substr(index+1).toLowerCase() : null;
+}
+
+function setExpiration(expire) {
+  $.post({
+    url: serviceUrl + "/" + bucket.id + "/expiration",
+    contentType: "application/json",
+    data: JSON.stringify({seconds: expire.value}),
+    success: function() {
+      var whenExpires = moment().add(expire.value, "seconds");
+      showAlert("Bucket will expire on " + whenExpires.format("MM/DD") + " at " + whenExpires.format("HH:mm a"));
     }
-  });
-});
+  })
+}
+
+function showAlert(message) {
+  console.log(message);
+}

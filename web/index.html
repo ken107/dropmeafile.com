@@ -16,26 +16,27 @@
   <script src="js/jquery.iframe-transport.js"></script>
   <script src="js/jquery.fileupload.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/moment.js"></script>
   <script src="js/databind.js"></script>
   <script src="js/index.js"></script>
 </head>
-<body>
-  <label for="fileupload" class="drop-zone">
-    <table class="default-message" bind-statement-1="$(thisElem).toggle(#files.length == 0)">
+<body bind-statement-1="if (#bucket) location.href = '#'+#bucket.id"
+  bind-statement-2="if (location.hash) openBucket(location.hash.substr(1))">
+  <div class="drop-zone">
+    <table class="default-message" bind-statement-1="$(thisElem).toggle(#bucket == null)">
       <tr>
         <td>
-          <div>Drop Files Here</div>
-          <div>or Click To Browse</div>
+          Drop Files Here
         <td>
       </tr>
     </table>
     <div class="file-list">
-      <div class="file" bind-repeater-i="#files.length" bind-var-file="#files[#i]">
-        <img bind-statement-1="thisElem.src = 'img/' + (extensions[#file.ext] || extensions.other).icon" />
+      <div class="file" bind-repeater-i="#bucket.files.length" bind-var-file="#bucket.files[#i]" bind-event-click="this.selectFile(#file)">
+        <img bind-var-ext="getExtension(#file.name)" bind-statement-1="thisElem.src = 'img/' + (extensions[#ext] || extensions.other).icon" />
         <div class="filename">{{#file.name}}</div>
       </div>
     </div>
-  </label>
+  </div>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -46,35 +47,41 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">DMAF</a>
+        <a class="navbar-brand" href="https://www.lsdsoftware.com/" target="_blank">DMAF</a>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li bind-statement-1="$(thisElem).toggle(#files.length == 0)">
-            <a href="#">Here to pick up?</a>
+          <li bind-statement-1="$(thisElem).toggle(#bucket == null)">
+            <a href="javascript:showPickupDialog()">Here to pick up?</a>
           </li>
-          <li bind-statement-1="$(thisElem).toggle(#files.length > 0)">
-            <a href="#">Set pickup codes</a>
+          <li bind-statement-1="$(thisElem).toggle(#bucket != null)">
+            <a href="javascript:showPickupCodesDialog()">Set pickup codes</a>
           </li>
-          <li class="dropdown" bind-statement-1="$(thisElem).toggle(#files.length > 0)">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
+          <li class="dropdown" bind-statement-1="$(thisElem).toggle(#bucket != null)">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
             <ul class="dropdown-menu">
               <li bind-repeater-i="#expireList.length" bind-var-expire="#expireList[#i]" bind-event-click="#expireIndex = #i"
                 bind-statement-1="$(thisElem).toggleClass('active', #i==#expireIndex)">
-                <a href="#">{{#expire.desc}}</a>
+                <a href="javascript:void(0)" bind-event-click="setExpiration(#expire)">{{#expire.desc}}</a>
               </li>
             </ul>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Copy URL</a></li>
+          <li bind-statement-1="$(thisElem).toggle(#bucket != null)"><a href="javascript:copyUrl()">Copy URL</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
+  <label class="upload-button" for="fileupload">
+    <img src="img/upload.png" />
+  </label>
   <div style="display: none;">
-    <input id="fileupload" type="file" name="files[]" data-url="http://titan.diepkhuc.com:8080/fileupload" multiple>
+    <input id="fileupload" type="file" name="files[]" multiple
+      bind-var-initialized="false"
+      bind-statement-1="$(thisElem).fileupload({dataType: 'json', singleFileUploads: false, done: this.onUploadDone}); #initialized = true"
+      bind-statement-2="if (#initialized) $(thisElem).fileupload('option', 'url', serviceUrl + (#bucket ? '/'+#bucket.id : ''))">
   </div>
 </body>
 </html>
