@@ -27,6 +27,13 @@
 .file img {
 	width: 48px;
 }
+.file .fileext {
+	position: absolute;
+	top: 10px;
+	width: 100%;
+	font-size: large;
+	color: #eee;
+}
 .file .filename {
 	margin-top: 5px;
 	width: 96px;

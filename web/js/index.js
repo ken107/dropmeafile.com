@@ -46,7 +46,7 @@ var fileuploadOptions = {
   done: onUploadDone
 }
 
-if (location.hash) openBucket(location.hash.substr(1));
+if (location.hash && location.hash != "#pickup") openBucket(location.hash.substr(1));
 else createBucket();
 
 
@@ -56,6 +56,14 @@ function initFileupload(fileInput, bucketId) {
 }
 
 function onUploadAdd(e, data) {
+  var files = [];
+  for (var i=0; i<data.files.length; i++) {
+    var f = data.files[i];
+    if (f.size > 200*1024*1024) alertPopup.show("File '" + f.name + "' is too big, must be less than 200MB");
+    else files.push(f);
+  }
+  if (files.length == 0) return;
+  data.files = files;
   var pendingFiles = data.files.map(function(f) {return {name: f.name}});
   bucket.files.push.apply(bucket.files, pendingFiles);
   data.context = pendingFiles;

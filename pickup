@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="refresh" content="0; url=/#pickup" />
+  <script>
+    location.href = "/#pickup";
+  </script>
+</head>
+</html>
