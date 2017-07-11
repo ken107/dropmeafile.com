@@ -9,3 +9,15 @@ $("<div/>").load("components.html", function() {
 
 function File() {
 }
+
+function AlertPopup() {
+}
+
+function AlertModal() {
+}
+
+function PickupDialog() {
+}
+
+function RecipientsDialog() {
+}

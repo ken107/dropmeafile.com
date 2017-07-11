@@ -86,7 +86,11 @@ function openBucket(bucketId) {
     success: function(result) {
       bucket = result;
     },
-    error: showModalAlert.bind(null, "Bucket not found")
+    error: function() {
+      alertModal.show("Bucket not found", function() {
+        location.href = "/";
+      })
+    }
   })
 }
 
@@ -108,27 +112,78 @@ function setExpiration(expire) {
     data: JSON.stringify({seconds: expire.value}),
     success: function() {
       var whenExpires = moment().add(expire.value, "seconds");
-      showAlert("Bucket will expire on " + whenExpires.format("MM/DD") + " at " + whenExpires.format("HH:mm a"));
+      alertPopup.show("Bucket will expire on " + whenExpires.format("MM/DD") + " at " + whenExpires.format("hh:mm a"), "success");
     }
   })
 }
 
-function showPickupDialog() {
+pickupDialog = new function() {
+  this.visible = false;
 
+  this.show = function() {
+    this.visible = true;
+  }
+  this.hide = function() {
+    this.visible = false;
+  }
 }
 
-function showPickupCodesDialog() {
+recipientsDialog = new function() {
+  this.visible = false;
 
+  this.show = function() {
+    this.visible = true;
+  }
+}
+
+function pickup(data) {
+  var recipient = data.name + "-" + data.passphrase;
+  $.get({
+    url: serviceUrl + "/pickup/" + encodeURIComponent(recipient),
+    success: function(result) {
+      bucket = result;
+      pickupDialog.hide();
+    },
+    error: function() {
+      alertPopup.show("Bucket not found");
+    }
+  })
 }
 
 function copyUrl() {
-  showAlert("This page's URL has been copied to your clipboard.");
+  alertPopup.show("This page's URL has been copied to your clipboard.", "success");
 }
 
-function showAlert(message) {
-  alert(message);
+alertPopup = new function() {
+  this.message = null;
+  this.context = null;
+  this.visible = false;
+  var timer;
+
+  this.show = function(message, context) {
+    this.message = message;
+    this.context = context;
+    this.visible = true;
+    clearTimeout(timer);
+    timer = setTimeout(this.hide.bind(this), 5000);
+  }
+  this.hide = function() {
+    this.visible = false;
+  }
 }
 
-function showModalAlert(message) {
-  alert(message);
+alertModal = new function() {
+  this.message = null;
+  this.visible = false;
+  this.onHide = null;
+
+  this.show = function(message, onHide) {
+    this.message = message;
+    this.visible = true;
+    this.onHide = onHide;
+  }
+  this.hide = function() {
+    this.visible = false;
+    if (this.onHide) this.onHide();
+  }
 }

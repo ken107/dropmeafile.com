@@ -7,3 +7,46 @@
       bind-statement-1="$(thisElem).css('width', (#file.progress||0)*100 + '%')"></div>
   </div>
 </div>
+
+<div data-class="AlertPopup" class="alert-popup" bind-statement-1="$(thisElem).toggle(#visible)">
+  <div bind-statement-1="thisElem.className = 'alert alert-' + (#context || 'danger')"><strong>{{#message}}</strong></div>
+</div>
+
+<div data-class="AlertModal" class="alert-modal" bind-var-view-root="thisElem" bind-statement-1="$(thisElem).toggle(#visible)">
+  <div class="screen-cover"></div>
+  <div class="center-on-screen">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <button type="button" class="close" bind-event-click="$(#viewRoot).triggerHandler('close')"><span>&times;</span></button>
+        <strong>Error</strong>
+      </div>
+      <div class="panel-body">{{#message}}</div>
+    </div>
+  </div>
+</div>
+
+<div data-class="PickupDialog" class="pickup-dialog"
+  bind-var-view-root="thisElem"
+  bind-var-form-data="{}"
+  bind-statement-1="$(thisElem).toggle(#visible)">
+  <div class="screen-cover"></div>
+  <div class="center-on-screen">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <button type="button" class="close" bind-event-click="$(#viewRoot).triggerHandler('close')"><span>&times;</span></button>
+        <strong>Pick up</strong>
+      </div>
+      <div class="panel-body">
+        <div class="form-label">Name:</div>
+        <input type="text" class="form-control" bind-event-change="#formData.name = thisElem.value" />
+        <div class="form-label">Passphrase:</div>
+        <input type="text" class="form-control" bind-event-change="#formData.passphrase = thisElem.value" />
+        <div class="form-label"></div>
+        <button type="button" class="btn btn-default" bind-event-click="$(#viewRoot).triggerHandler('submit', #formData)">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-class="RecipientsDialog" class="recipients-dialog" bind-statement-1="$(thisElem).toggle(#visible)">
+</div>

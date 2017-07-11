@@ -1,4 +1,20 @@
 
+.screen-cover {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: black;
+	opacity: .25
+}
+.center-on-screen {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+
 .file {
 	position: relative;
 	display: inline-block;
@@ -26,4 +42,34 @@
 	left: 10px;
 	right: 10px;
 	height: 10px;
+}
+
+
+.alert-popup {
+	position: absolute;
+	left: 20px;
+	right: 110px;
+	bottom: 5px;
+}
+.alert-popup .alert {
+	display: inline-block;
+}
+
+
+.alert-modal .panel {
+	position: relative;
+	top: -50px;
+	left: -150px;
+	width: 300px;
+}
+
+
+.pickup-dialog .panel {
+	position: relative;
+	top: -140px;
+	left: -150px;
+	width: 300px;
+}
+.pickup-dialog .form-label {
+	margin-top: 10px;
 }

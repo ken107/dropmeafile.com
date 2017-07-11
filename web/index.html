@@ -55,10 +55,10 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li bind-statement-1="$(thisElem).toggle(!#bucket.files.length)">
-            <a href="javascript:showPickupDialog()">Here to pick up?</a>
+            <a href="javascript:pickupDialog.show()">Here to pick up?</a>
           </li>
           <li bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
-            <a href="javascript:showPickupCodesDialog()">Set pickup codes</a>
+            <a href="javascript:recipientsDialog.show()">Set pickup codes</a>
           </li>
           <li class="dropdown" bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
@@ -82,6 +82,14 @@
   <div style="display: none;">
     <input id="fileupload" type="file" name="files[]" multiple
       bind-statement-1="if (#bucket) this.initFileupload(thisElem, #bucket.id)" />
+  </div>
+  <div bind-view="PickupDialog" bind-param-visible="#pickupDialog.visible" bind-event-submit="pickup(event.data)" bind-event-close="pickupDialog.hide()">
+  </div>
+  <div bind-view="RecipientsDialog" bind-param-visible="#recipientsDialog.visible">
+  </div>
+  <div bind-view="AlertPopup" bind-param-visible="#alertPopup.visible" bind-param-message="#alertPopup.message" bind-param-context="#alertPopup.context">
+  </div>
+  <div bind-view="AlertModal" bind-param-visible="#alertModal.visible" bind-param-message="#alertModal.message" bind-event-close="alertModal.hide()">
   </div>
 </body>
 </html>
