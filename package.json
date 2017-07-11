@@ -1,7 +1,17 @@
 {
   "scripts": {
     "start": "http-server web",
-    "deploy": "aws s3 sync --profile=s3 --delete --metadata-directive REPLACE --acl public-read --cache-control max-age=1800,public web s3://dropmeafile.com",
-    "deploy-pickup": "aws s3 cp --profile=s3 --metadata-directive REPLACE --acl public-read --cache-control max-age=1800,public --content-type text/html pickup s3://dropmeafile.com"
+    "deploy": "aws s3 sync --profile=s3 --delete --metadata-directive REPLACE --acl public-read --cache-control max-age=1800,public --exclude pickup web s3://dropmeafile.com",
+    "deploy-pickup": "aws s3 cp --profile=s3 --metadata-directive REPLACE --acl public-read --cache-control max-age=1800,public --content-type text/html web/pickup s3://dropmeafile.com"
+  },
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.0",
+    "gulp-newer": "^1.0.0",
+    "gulp-print": "^2.0.1",
+    "gulp-uglify": "^1.4.2",
+    "yargs": "^3.31.0"
   }
 }
