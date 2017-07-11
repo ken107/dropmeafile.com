@@ -14,7 +14,7 @@
 
 <div data-class="AlertModal" class="alert-modal" bind-var-view-root="thisElem" bind-statement-1="$(thisElem).toggle(#visible)">
   <div class="screen-cover"></div>
-  <div class="center-on-screen">
+  <div class="center-vertically">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <button type="button" class="close" bind-event-click="$(#viewRoot).triggerHandler('close')"><span>&times;</span></button>
@@ -27,10 +27,10 @@
 
 <div data-class="PickupDialog" class="pickup-dialog"
   bind-var-view-root="thisElem"
-  bind-var-form-data="{}"
+  bind-var-form-data="{name: '', passphrase: ''}"
   bind-statement-1="$(thisElem).toggle(#visible)">
   <div class="screen-cover"></div>
-  <div class="center-on-screen">
+  <div class="center-vertically">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <button type="button" class="close" bind-event-click="$(#viewRoot).triggerHandler('close')"><span>&times;</span></button>
@@ -48,5 +48,36 @@
   </div>
 </div>
 
-<div data-class="RecipientsDialog" class="recipients-dialog" bind-statement-1="$(thisElem).toggle(#visible)">
+<div data-class="SetPassphraseDialog" class="set-passphrase-dialog"
+  bind-var-view-root="thisElem"
+  bind-statement-1="$(thisElem).toggle(#visible)">
+  <div class="screen-cover"></div>
+  <div class="center-vertically">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <button type="button" class="close" bind-event-click="$(#viewRoot).triggerHandler('close')"><span>&times;</span></button>
+        <strong>Passphrase</strong>
+      </div>
+      <div class="panel-body">
+        <div class="alert alert-danger">
+          This feature is intended for ease of sharing. Do NOT use it to share sensitive documents!
+        </div>
+        <div class="alert alert-info">
+          The best passphrase contains information only known by you and the intended recipient.
+          Both name and passphrase are case insensitive.
+          Files can be picked up by going to dropmeafile.com/pickup
+        </div>
+        <div class="form-label">Name:</div>
+        <input type="text" class="form-control" placeholder="e.g. Debbie from SpaceX"
+          bind-statement-1="thisElem.value = #formData.name"
+          bind-event-change="#formData.name = thisElem.value" />
+        <div class="form-label">Passphrase:</div>
+        <input type="text" class="form-control" placeholder="e.g. Requiem For The American Dream"
+          bind-statement-1="thisElem.value = #formData.passphrase"
+          bind-event-change="#formData.passphrase = thisElem.value" />
+        <div class="form-label"></div>
+        <button type="button" class="btn btn-default" bind-event-click="$(#viewRoot).triggerHandler('submit')">Save</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -58,7 +58,7 @@
             <a href="javascript:pickupDialog.show()">Here to pick up?</a>
           </li>
           <li bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
-            <a href="javascript:recipientsDialog.show()">Set pickup codes</a>
+            <a href="javascript:setPassphraseDialog.show()">Set pickup passphrase</a>
           </li>
           <li class="dropdown" bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
@@ -85,7 +85,11 @@
   </div>
   <div bind-view="PickupDialog" bind-param-visible="#pickupDialog.visible" bind-event-submit="pickup(event.data)" bind-event-close="pickupDialog.hide()">
   </div>
-  <div bind-view="RecipientsDialog" bind-param-visible="#recipientsDialog.visible">
+  <div bind-view="SetPassphraseDialog"
+    bind-param-visible="#setPassphraseDialog.visible"
+    bind-param-form-data="#setPassphraseDialog.formData"
+    bind-event-submit="setPassphrase()"
+    bind-event-close="setPassphraseDialog.hide()">
   </div>
   <div bind-view="AlertPopup" bind-param-visible="#alertPopup.visible" bind-param-message="#alertPopup.message" bind-param-context="#alertPopup.context">
   </div>

@@ -1,5 +1,5 @@
 
-serviceUrl = "http://localhost:30112/dropmeafile";
+serviceUrl = location.hostname == "localhost" ? "http://localhost:30112/dropmeafile" : "https://support2.lsdsoftware.com:30112/dropmeafile";
 bucket = null;
 extensions = {
   ai: { icon: "file_ai.png" },
@@ -86,8 +86,8 @@ function openBucket(bucketId) {
     success: function(result) {
       bucket = result;
     },
-    error: function() {
-      alertModal.show("Bucket not found", function() {
+    error: function(xhr) {
+      alertModal.show(xhr.responseText, function() {
         location.href = "/";
       })
     }
@@ -113,12 +113,15 @@ function setExpiration(expire) {
     success: function() {
       var whenExpires = moment().add(expire.value, "seconds");
       alertPopup.show("Bucket will expire on " + whenExpires.format("MM/DD") + " at " + whenExpires.format("hh:mm a"), "success");
+    },
+    error: function(xhr) {
+      alertPopup.show(xhr.responseText);
     }
   })
 }
 
 pickupDialog = new function() {
-  this.visible = false;
+  this.visible = location.hash == "#pickup";
 
   this.show = function() {
     this.visible = true;
@@ -128,30 +131,70 @@ pickupDialog = new function() {
   }
 }
 
-recipientsDialog = new function() {
+setPassphraseDialog = new function() {
   this.visible = false;
+  this.formData = null;
 
   this.show = function() {
     this.visible = true;
+    this.formData = $.extend({name: '', passphrase: ''}, bucket.key);
+  }
+  this.hide = function() {
+    this.visible = false;
   }
 }
 
 function pickup(data) {
-  var recipient = data.name + "-" + data.passphrase;
+  if (!data.name || !data.passphrase) {
+    alertPopup.show("Please enter name and passphrase");
+    return;
+  }
   $.get({
-    url: serviceUrl + "/pickup/" + encodeURIComponent(recipient),
+    url: serviceUrl + "/pickup/" + encodeURIComponent(data.name) + "/" + encodeURIComponent(data.passphrase),
     success: function(result) {
       bucket = result;
       pickupDialog.hide();
     },
-    error: function() {
-      alertPopup.show("Bucket not found");
+    error: function(xhr) {
+      alertPopup.show(xhr.responseText);
+    }
+  })
+}
+
+function setPassphrase() {
+  var data = setPassphraseDialog.formData;
+  if (!data.name || !data.passphrase) {
+    alertPopup.show("Please enter name and passphrase");
+    return;
+  }
+  $.post({
+    url: serviceUrl + "/" + bucket.id + "/key",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    success: function() {
+      bucket.key = data;
+      alertPopup.show("Passphrase set", "success");
+      setPassphraseDialog.hide();
+    },
+    error: function(xhr) {
+      alertPopup.show(xhr.responseText);
     }
   })
 }
 
 function copyUrl() {
-  alertPopup.show("This page's URL has been copied to your clipboard.", "success");
+  var txtCopy = $('#copy-to-clipboard');
+  if (!txtCopy.length) txtCopy = $("<textarea id='copy-to-clipboard'></textarea>").appendTo(document.body);
+  txtCopy.val(location.href);
+  txtCopy.get(0).select();
+
+  try {
+    if (!document.execCommand('copy')) throw "fail";
+    alertPopup.show("This page's URL has been copied to your clipboard.", "success");
+  }
+  catch (err) {
+    alertPopup.show("Oops, unable to copy. You'll have to do it manually.");
+  }
 }
 
 alertPopup = new function() {

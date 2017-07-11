@@ -19,5 +19,5 @@ function AlertModal() {
 function PickupDialog() {
 }
 
-function RecipientsDialog() {
+function SetPassphraseDialog() {
 }
