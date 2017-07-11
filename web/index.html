@@ -22,10 +22,9 @@
   <script src="js/components.js"></script>
   <script src="js/index.js"></script>
 </head>
-<body bind-statement-1="if (#bucket) location.href = '#'+#bucket.id"
-  bind-statement-2="if (location.hash) openBucket(location.hash.substr(1))">
+<body bind-statement-1="if (#bucket.files.length) location.href = '#' + #bucket.id">
   <div class="drop-zone">
-    <table class="default-message" bind-statement-1="$(thisElem).toggle(#bucket == null)">
+    <table class="default-message" bind-statement-1="$(thisElem).toggle(!#bucket.files.length)">
       <tr>
         <td>
           Drop Files Here
@@ -55,13 +54,13 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li bind-statement-1="$(thisElem).toggle(#bucket == null)">
+          <li bind-statement-1="$(thisElem).toggle(!#bucket.files.length)">
             <a href="javascript:showPickupDialog()">Here to pick up?</a>
           </li>
-          <li bind-statement-1="$(thisElem).toggle(#bucket != null)">
+          <li bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
             <a href="javascript:showPickupCodesDialog()">Set pickup codes</a>
           </li>
-          <li class="dropdown" bind-statement-1="$(thisElem).toggle(#bucket != null)">
+          <li class="dropdown" bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
             <ul class="dropdown-menu">
               <li bind-repeater-i="#expireList.length" bind-var-expire="#expireList[#i]" bind-event-click="#expireIndex = #i"
@@ -72,23 +71,17 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li bind-statement-1="$(thisElem).toggle(#bucket != null)"><a href="javascript:copyUrl()">Copy URL</a></li>
+          <li bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)"><a href="javascript:copyUrl()">Copy URL</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-  <div class="progress" bind-statement-1="$(thisElem).toggle(#uploadProgress != null)">
-    <div class="progress-bar progress-bar-success" role="progressbar"
-      bind-statement-1="$(thisElem).css('width', (#uploadProgress||0)*100 + '%')"></div>
-  </div>
   <label class="upload-button" for="fileupload">
     <img src="img/upload.png" />
   </label>
   <div style="display: none;">
     <input id="fileupload" type="file" name="files[]" multiple
-      bind-var-initialized="false"
-      bind-statement-1="$(thisElem).fileupload(fileuploadOptions); #initialized = true"
-      bind-statement-2="if (#initialized) $(thisElem).fileupload('option', 'url', serviceUrl + (#bucket ? '/'+#bucket.id : ''))">
+      bind-statement-1="if (#bucket) this.initFileupload(thisElem, #bucket.id)" />
   </div>
 </body>
 </html>

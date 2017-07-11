@@ -17,3 +17,13 @@
 	overflow: hidden;
 	color: #666;
 }
+.file.pending img, .file.pending .filename {
+	opacity: .5;
+}
+.file .progress {
+	position: absolute;
+	top: 25px;
+	left: 10px;
+	right: 10px;
+	height: 10px;
+}

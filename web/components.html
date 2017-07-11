@@ -1,5 +1,9 @@
 
-<div data-class="File" class="file">
+<div data-class="File" class="file" bind-statement-1="$(thisElem).toggleClass('pending', !#file.id)">
   <img bind-var-ext="getExtension(#file.name)" bind-statement-1="thisElem.src = 'img/' + (extensions[#ext] || extensions.other).icon" />
   <div class="filename">{{#file.name}}</div>
+  <div class="progress" bind-statement-1="$(thisElem).toggle(!!#file.progress)">
+    <div class="progress-bar progress-bar-success" role="progressbar"
+      bind-statement-1="$(thisElem).css('width', (#file.progress||0)*100 + '%')"></div>
+  </div>
 </div>

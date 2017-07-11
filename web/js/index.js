@@ -1,7 +1,6 @@
 
 serviceUrl = "http://localhost:30112/dropmeafile";
 bucket = null;
-uploadProgress = null;
 extensions = {
   ai: { icon: "file_ai.png" },
   avi: { icon: "file_avi.png" },
@@ -40,19 +39,41 @@ expireIndex = 4;
 
 var fileuploadOptions = {
   dataType: 'json',
-  singleFileUploads: false,
-  progressall: onUploadProgress,
+  singleFileUploads: true,
+  sequentialUploads: true,
+  add: onUploadAdd,
+  progress: onUploadProgress,
   done: onUploadDone
 }
 
+if (location.hash) openBucket(location.hash.substr(1));
+else createBucket();
+
+
+function initFileupload(fileInput, bucketId) {
+  fileuploadOptions.url = serviceUrl + "/" + bucketId;
+  $(fileInput).fileupload(fileuploadOptions);
+}
+
+function onUploadAdd(e, data) {
+  var pendingFiles = data.files.map(function(f) {return {name: f.name}});
+  bucket.files.push.apply(bucket.files, pendingFiles);
+  data.context = pendingFiles;
+  data.submit();
+}
 
 function onUploadProgress(e, data) {
-  uploadProgress = data.loaded / data.total;
+  var pendingFiles = data.context;
+  for (var i=0; i<pendingFiles.length; i++) pendingFiles[i].progress = data.loaded / data.total;
 }
 
 function onUploadDone(e, data) {
-  bucket = data.result;
-  uploadProgress = null;
+  var pendingFiles = data.context;
+  var files = data.result;
+  for (var i=0; i<pendingFiles.length; i++) {
+    pendingFiles[i].progress = null;
+    $.extend(pendingFiles[i], files[i]);
+  }
 }
 
 function selectFile(file) {
@@ -60,7 +81,17 @@ function selectFile(file) {
 }
 
 function openBucket(bucketId) {
-  $.get(serviceUrl + "/" + bucketId, function(result) {
+  $.get({
+    url: serviceUrl + "/" + bucketId,
+    success: function(result) {
+      bucket = result;
+    },
+    error: showModalAlert.bind(null, "Bucket not found")
+  })
+}
+
+function createBucket() {
+  $.post(serviceUrl, function(result) {
     bucket = result;
   })
 }
@@ -82,6 +113,22 @@ function setExpiration(expire) {
   })
 }
 
+function showPickupDialog() {
+
+}
+
+function showPickupCodesDialog() {
+
+}
+
+function copyUrl() {
+  showAlert("This page's URL has been copied to your clipboard.");
+}
+
 function showAlert(message) {
-  console.log(message);
+  alert(message);
+}
+
+function showModalAlert(message) {
+  alert(message);
 }

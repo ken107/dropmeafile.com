@@ -4,6 +4,11 @@ body {
 	padding: 0;
 }
 
+.navbar-default .navbar-brand {
+	font-weight: bold;
+	color: darkred;
+}
+
 .drop-zone {
 	position: absolute;
 	top: 50px;
@@ -37,12 +42,4 @@ body {
 
 .file-list {
 	padding: 15px;
-}
-
-.progress {
-	position: absolute;
-	top: 50px;
-	left: 0;
-	right: 0;
-	height: 5px;
 }
