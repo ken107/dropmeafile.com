@@ -14,9 +14,10 @@
 
   <script src="js/pack.js"></script>
 </head>
-<body bind-statement-1="if (#bucket.files.length) location.href = '#' + #bucket.id">
+<body bind-var-state="#bucket.files.length ? 1 : 0"
+  bind-statement-1="if (#bucket.files.length) location.href = '#' + #bucket.id">
   <div class="drop-zone">
-    <table class="default-message" bind-statement-1="$(thisElem).toggle(!#bucket.files.length)">
+    <table class="default-message" bind-statement-1="$(thisElem).toggle(#state == 0)">
       <tr>
         <td>
           Drop Files Here
@@ -31,51 +32,22 @@
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://www.lsdsoftware.com/" target="_blank">DMAF</a>
-      </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li bind-statement-1="$(thisElem).toggle(!#bucket.files.length)">
-            <a href="javascript:pickupDialog.show()">Here to pick up?</a>
-          </li>
-          <li bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
-            <a href="javascript:setPassphraseDialog.show()">Set pickup passphrase</a>
-          </li>
-          <li class="dropdown" bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)">
-            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
-            <ul class="dropdown-menu">
-              <li bind-repeater-i="#expireList.length" bind-var-expire="#expireList[#i]" bind-event-click="#expireIndex = #i"
-                bind-statement-1="$(thisElem).toggleClass('active', #i==#expireIndex)">
-                <a href="javascript:void(0)" bind-event-click="setExpiration(#expire)">{{#expire.desc}}</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li bind-statement-1="$(thisElem).toggle(!!#bucket.files.length)"><a href="javascript:copyUrl()">Copy URL</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-  <label class="upload-button" for="fileupload">
-    <img src="img/upload.png" />
-  </label>
-  <div style="display: none;">
-    <input id="fileupload" type="file" name="files[]" multiple
-      bind-statement-1="if (#bucket) this.initFileupload(thisElem, #bucket.id)" />
+  <div bind-view="NavBar"
+    bind-param-state="#state"
+    bind-event-pick-up="pickupDialog.show()"
+    bind-event-set-passphrase="setPassphraseDialog.show()"
+    bind-event-set-expiration="setExpiration(event.data)"
+    bind-event-copy-url="copyUrl()">
   </div>
-  <div bind-view="PickupDialog" bind-param-visible="#pickupDialog.visible" bind-event-submit="pickup(event.data)" bind-event-close="pickupDialog.hide()">
+  <div bind-view="FileUpload"
+    bind-param-bucket="#bucket"
+    bind-param-service-url="#serviceUrl"
+    bind-event-error="alertPopup.show(event.data)">
+  </div>
+  <div bind-view="PickupDialog"
+    bind-param-visible="#pickupDialog.visible"
+    bind-event-submit="pickup(event.data)"
+    bind-event-close="pickupDialog.hide()">
   </div>
   <div bind-view="SetPassphraseDialog"
     bind-param-visible="#setPassphraseDialog.visible"
@@ -83,9 +55,15 @@
     bind-event-submit="setPassphrase()"
     bind-event-close="setPassphraseDialog.hide()">
   </div>
-  <div bind-view="AlertPopup" bind-param-visible="#alertPopup.visible" bind-param-message="#alertPopup.message" bind-param-context="#alertPopup.context">
+  <div bind-view="AlertPopup"
+    bind-param-visible="#alertPopup.visible"
+    bind-param-message="#alertPopup.message"
+    bind-param-context="#alertPopup.context">
   </div>
-  <div bind-view="AlertModal" bind-param-visible="#alertModal.visible" bind-param-message="#alertModal.message" bind-event-close="alertModal.hide()">
+  <div bind-view="AlertModal"
+    bind-param-visible="#alertModal.visible"
+    bind-param-message="#alertModal.message"
+    bind-event-close="alertModal.hide()">
   </div>
 </body>
 </html>

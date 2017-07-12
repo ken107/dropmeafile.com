@@ -1,7 +1,9 @@
 
-<div data-class="File" class="file" bind-var-ext="getExtension(#file.name)" bind-statement-1="$(thisElem).toggleClass('pending', !#file.id)">
-  <img bind-statement-1="thisElem.src = 'img/' + (extensions[#ext] || extensions.other).icon" />
-  <div class="fileext" bind-statement-1="$(thisElem).toggle(!extensions[#ext])">{{#ext}}</div>
+<div data-class="File" class="file"
+  bind-var-ext="this.getExtension(#file.name)"
+  bind-statement-1="$(thisElem).toggleClass('pending', !#file.id)">
+  <img bind-statement-1="thisElem.src = this.getIconUrl(#ext)" />
+  <div class="fileext" bind-statement-1="$(thisElem).toggle(this.shouldOverlayExt(#ext))">{{#ext}}</div>
   <div class="filename">{{#file.name}}</div>
   <div class="progress" bind-statement-1="$(thisElem).toggle(!!#file.progress)">
     <div class="progress-bar progress-bar-success" role="progressbar"
@@ -9,11 +11,16 @@
   </div>
 </div>
 
-<div data-class="AlertPopup" class="alert-popup" bind-statement-1="$(thisElem).toggle(#visible)">
-  <div bind-statement-1="thisElem.className = 'alert alert-' + (#context || 'danger')"><strong>{{#message}}</strong></div>
+<div data-class="AlertPopup" class="alert-popup"
+  bind-statement-1="$(thisElem).toggle(#visible)">
+  <div bind-statement-1="thisElem.className = 'alert alert-' + (#context || 'danger')">
+    <strong>{{#message}}</strong>
+  </div>
 </div>
 
-<div data-class="AlertModal" class="alert-modal" bind-var-view-root="thisElem" bind-statement-1="$(thisElem).toggle(#visible)">
+<div data-class="AlertModal" class="alert-modal"
+  bind-var-view-root="thisElem"
+  bind-statement-1="$(thisElem).toggle(#visible)">
   <div class="screen-cover"></div>
   <div class="center-vertically">
     <div class="panel panel-primary">
@@ -64,7 +71,7 @@
           This feature is intended for ease of sharing. Do NOT use it to share sensitive documents!
         </div>
         <div class="alert alert-info">
-          The best passphrase contains information only known by you and the intended recipient.
+          A good passphrase contains information only known by you and the intended recipient.
           Both name and passphrase are case insensitive.
           Files can be picked up by going to dropmeafile.com/pickup
         </div>
@@ -80,5 +87,59 @@
         <button type="button" class="btn btn-default" bind-event-click="$(#viewRoot).triggerHandler('submit')">Save</button>
       </div>
     </div>
+  </div>
+</div>
+
+<nav data-class="NavBar" class="navbar navbar-default" bind-var-view-root="thisElem">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.lsdsoftware.com/" target="_blank">DMAF</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li bind-statement-1="$(thisElem).toggle(#state == 0)">
+          <a href="#" bind-event-click="$(#viewRoot).triggerHandler('pick-up'); event.preventDefault()">Here to pick up?</a>
+        </li>
+        <li bind-statement-1="$(thisElem).toggle(#state == 1)">
+          <a href="#" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase'); event.preventDefault()">Set pickup passphrase</a>
+        </li>
+        <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1)">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
+          <ul class="dropdown-menu">
+            <li bind-repeater-i="#expireList.length"
+              bind-var-expire="#expireList[#i]"
+              bind-event-click="#expireIndex = #i"
+              bind-statement-1="$(thisElem).toggleClass('active', #i==#expireIndex)">
+              <a href="#" bind-event-click="$(#viewRoot).triggerHandler('set-expiration', #expire); event.preventDefault()">{{#expire.desc}}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li bind-statement-1="$(thisElem).toggle(#state == 1)">
+          <a href="#" bind-event-click="$(#viewRoot).triggerHandler('copy-url'); event.preventDefault()">Copy URL</a>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div data-class="FileUpload">
+  <label class="upload-button" for="fileupload">
+    <img src="img/upload.png" />
+  </label>
+  <div style="display: none;">
+    <input id="fileupload" type="file" name="files[]" multiple
+      bind-var-initialized="false"
+      bind-statement-1="this.init(thisElem); #initialized = true"
+      bind-statement-2="if (#initialized && #bucket) this.setUploadUrl(thisElem, #serviceUrl + '/' + #bucket.id)" />
   </div>
 </div>

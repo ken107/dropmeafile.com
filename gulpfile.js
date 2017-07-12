@@ -7,7 +7,7 @@ var gulp = require("gulp"),
 	argv = require("yargs").argv,
 	del = require("del");
 
-gulp.task("build-js", function() {
+gulp.task("build", function() {
 	var files = [
 		"jquery.js",
 	  "jquery.ui.widget.js",
