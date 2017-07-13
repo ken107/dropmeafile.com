@@ -47,12 +47,16 @@
         <strong>Pick up</strong>
       </div>
       <div class="panel-body">
-        <div class="form-label">Name:</div>
-        <input type="text" class="form-control" bind-event-change="#formData.name = thisElem.value" />
-        <div class="form-label">Passphrase:</div>
-        <input type="text" class="form-control" bind-event-change="#formData.passphrase = thisElem.value" />
-        <div class="form-label"></div>
-        <button type="button" class="btn btn-default" bind-event-click="$(#viewRoot).triggerHandler('submit', #formData)">Submit</button>
+        <form bind-event-submit="$(#viewRoot).triggerHandler('submit', #formData); return false">
+          <div class="form-label">Name:</div>
+          <input type="text" class="form-control"
+            bind-statement-1="if (#visible) thisElem.focus()"
+            bind-event-change="#formData.name = thisElem.value" />
+          <div class="form-label">Passphrase:</div>
+          <input type="text" class="form-control" bind-event-change="#formData.passphrase = thisElem.value" />
+          <div class="form-label"></div>
+          <input type="submit" class="btn btn-default" value="Submit" />
+        </form>
       </div>
     </div>
   </div>
@@ -77,16 +81,19 @@
           Both name and passphrase are case insensitive.
           Files can be picked up by going to dropmeafile.com/pickup
         </div>
-        <div class="form-label">Name:</div>
-        <input type="text" class="form-control" placeholder="e.g. Debbie from SpaceX"
-          bind-statement-1="thisElem.value = #formData.name"
-          bind-event-change="#formData.name = thisElem.value" />
-        <div class="form-label">Passphrase:</div>
-        <input type="text" class="form-control" placeholder="e.g. Requiem For The American Dream"
-          bind-statement-1="thisElem.value = #formData.passphrase"
-          bind-event-change="#formData.passphrase = thisElem.value" />
-        <div class="form-label"></div>
-        <button type="button" class="btn btn-default" bind-event-click="$(#viewRoot).triggerHandler('submit')">Save</button>
+        <form bind-event-submit="$(#viewRoot).triggerHandler('submit'); return false">
+          <div class="form-label">Name:</div>
+          <input type="text" class="form-control" placeholder="e.g. Debbie from SpaceX"
+            bind-statement-1="thisElem.value = #formData.name"
+            bind-statement-2="if (#visible) thisElem.focus()"
+            bind-event-change="#formData.name = thisElem.value" />
+          <div class="form-label">Passphrase:</div>
+          <input type="text" class="form-control" placeholder="e.g. Requiem For The American Dream"
+            bind-statement-1="thisElem.value = #formData.passphrase"
+            bind-event-change="#formData.passphrase = thisElem.value" />
+          <div class="form-label"></div>
+          <input type="submit" class="btn btn-default" value="Save" />
+        </form>
       </div>
     </div>
   </div>
