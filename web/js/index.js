@@ -6,10 +6,6 @@ if (location.hash && location.hash != "#pickup") openBucket(location.hash.substr
 else createBucket();
 
 
-function selectFile(file) {
-  window.open(serviceUrl + "/" + bucket.id + "/" + file.id);
-}
-
 function openBucket(bucketId) {
   $.get({
     url: serviceUrl + "/" + bucketId,

@@ -26,9 +26,10 @@
     </table>
     <div class="file-list">
       <div bind-repeater-i="#bucket.files.length"
+        bind-var-file="#bucket.files[#i]"
         bind-view="File"
-        bind-param-file="#bucket.files[#i]"
-        bind-event-click="this.selectFile(#bucket.files[#i])">
+        bind-param-file="#file"
+        bind-param-link="#file.id ? (#serviceUrl + '/' + #bucket.id + '/' + #file.id) : null">
       </div>
     </div>
   </div>

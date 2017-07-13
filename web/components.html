@@ -2,9 +2,11 @@
 <div data-class="File" class="file"
   bind-var-ext="this.getExtension(#file.name)"
   bind-statement-1="$(thisElem).toggleClass('pending', !#file.id)">
-  <img bind-statement-1="thisElem.src = this.getIconUrl(#ext)" />
-  <div class="fileext" bind-statement-1="$(thisElem).toggle(this.shouldOverlayExt(#ext))">{{#ext}}</div>
-  <div class="filename">{{#file.name}}</div>
+  <a target="_blank" bind-statement-1="if (#link) $(thisElem).attr('href', #link)">
+    <img bind-statement-1="thisElem.src = this.getIconUrl(#ext)" />
+    <div class="fileext" bind-statement-1="$(thisElem).toggle(this.shouldOverlayExt(#ext))">{{#ext}}</div>
+    <div class="filename">{{#file.name}}</div>
+  </a>
   <div class="progress" bind-statement-1="$(thisElem).toggle(!!#file.progress)">
     <div class="progress-bar progress-bar-success" role="progressbar"
       bind-statement-1="$(thisElem).css('width', (#file.progress||0)*100 + '%')"></div>
@@ -106,26 +108,26 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li bind-statement-1="$(thisElem).toggle(#state == 0)">
-          <a href="#" bind-event-click="$(#viewRoot).triggerHandler('pick-up'); event.preventDefault()">Here to pick up?</a>
+          <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('pick-up')">Here to pick up?</a>
         </li>
         <li bind-statement-1="$(thisElem).toggle(#state == 1)">
-          <a href="#" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase'); event.preventDefault()">Set pickup passphrase</a>
+          <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase')">Set pickup passphrase</a>
         </li>
         <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1)">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
+          <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
           <ul class="dropdown-menu">
             <li bind-repeater-i="#expireList.length"
               bind-var-expire="#expireList[#i]"
               bind-event-click="#expireIndex = #i"
               bind-statement-1="$(thisElem).toggleClass('active', #i==#expireIndex)">
-              <a href="#" bind-event-click="$(#viewRoot).triggerHandler('set-expiration', #expire); event.preventDefault()">{{#expire.desc}}</a>
+              <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('set-expiration', #expire)">{{#expire.desc}}</a>
             </li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li bind-statement-1="$(thisElem).toggle(#state == 1)">
-          <a href="#" bind-event-click="$(#viewRoot).triggerHandler('copy-url'); event.preventDefault()">Copy URL</a>
+          <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy URL</a>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
