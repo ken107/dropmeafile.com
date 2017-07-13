@@ -23,6 +23,7 @@ function openBucket(bucketId) {
 function createBucket() {
   $.post(serviceUrl, function(result) {
     bucket = result;
+    bucket.isNew = true;
   })
 }
 

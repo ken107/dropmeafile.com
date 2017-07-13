@@ -133,7 +133,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li bind-statement-1="$(thisElem).toggle(#state == 1)">
+        <li bind-statement-1="$(thisElem).toggle(#state == 1 || #state == 2)">
           <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy URL</a>
         </li>
       </ul>
@@ -142,7 +142,7 @@
 </nav>
 
 <div data-class="FileUpload">
-  <label class="upload-button" for="fileupload">
+  <label class="upload-button" for="fileupload" bind-statement-1="$(thisElem).toggle(#state == 0 || #state == 1)">
     <img src="img/upload.png" />
   </label>
   <div style="display: none;">
