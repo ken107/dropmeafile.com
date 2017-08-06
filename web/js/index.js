@@ -1,5 +1,5 @@
 
-serviceUrl = location.hostname == "localhost" ? "http://localhost:30112/dropmeafile" : "https://support2.lsdsoftware.com:30112/dropmeafile";
+serviceUrl = location.hostname == "localhost" ? "http://localhost:30112/dropmeafile" : "https://support2.lsdsoftware.com/dropmeafile";
 bucket = null;
 
 if (location.hash && location.hash != "#pickup") openBucket(location.hash.substr(1));
