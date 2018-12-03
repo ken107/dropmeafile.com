@@ -133,11 +133,11 @@
         <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1 || #state == 2)">
           <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Share</a>
           <ul class="dropdown-menu">
+            <li>
+              <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy and share URL</a>
+            </li>
             <li bind-statement-1="$(thisElem).toggle(#state == 1)">
               <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase')">Set pickup passphrase</a>
-            </li>
-            <li>
-              <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy URL</a>
             </li>
           </ul>
         </li>
