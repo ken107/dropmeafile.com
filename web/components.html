@@ -117,9 +117,6 @@
         <li bind-statement-1="$(thisElem).toggle(#state == 0)">
           <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('pick-up')">Here to pick up?</a>
         </li>
-        <li bind-statement-1="$(thisElem).toggle(#state == 1)">
-          <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase')">Set pickup passphrase</a>
-        </li>
         <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1)">
           <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
           <ul class="dropdown-menu">
@@ -133,8 +130,16 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li bind-statement-1="$(thisElem).toggle(#state == 1 || #state == 2)">
-          <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy URL</a>
+        <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1 || #state == 2)">
+          <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Share</a>
+          <ul class="dropdown-menu">
+            <li bind-statement-1="$(thisElem).toggle(#state == 1)">
+              <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase')">Set pickup passphrase</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy URL</a>
+            </li>
+          </ul>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
