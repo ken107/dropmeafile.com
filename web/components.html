@@ -16,7 +16,7 @@
 <div data-class="AlertPopup" class="alert-popup"
   bind-statement-1="$(thisElem).toggle(#visible)">
   <div bind-statement-1="thisElem.className = 'alert alert-' + (#context || 'danger')">
-    <strong>{{#message}}</strong>
+    {{#message}}
   </div>
 </div>
 
@@ -109,7 +109,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="https://www.lsdsoftware.com/" target="_blank">DMAF</a>
+      <a class="navbar-brand" href="https://www.lsdsoftware.com/" target="_blank">DropMeAFile</a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -131,7 +131,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1 || #state == 2)">
-          <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Share</a>
+          <a href="javascript:void(0)" class="dropdown-toggle btn-share" data-toggle="dropdown" role="button">Share</a>
           <ul class="dropdown-menu">
             <li>
               <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy and share URL</a>

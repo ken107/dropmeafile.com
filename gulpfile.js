@@ -8,6 +8,8 @@ var gulp = require("gulp"),
 	del = require("del");
 
 gulp.task("build", function() {
+	const isRelease = Boolean(argv.r);
+
 	var files = [
 		"jquery.js",
 	  "jquery.ui.widget.js",
@@ -24,7 +26,7 @@ gulp.task("build", function() {
 	gulp.src(files)
 		.pipe(newer("web/js/pack.js"))
 		.pipe(concat("pack.js"))
-		.pipe(gulpif(!argv.d, uglify({compress: {evaluate: false}})))
+		.pipe(gulpif(isRelease, uglify({compress: {evaluate: false}})))
 		.pipe(print())
 		.pipe(gulp.dest("web/js"));
 });

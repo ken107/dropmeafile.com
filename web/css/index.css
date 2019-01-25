@@ -34,12 +34,29 @@ body {
 	right: 30px;
 	bottom: 20px;
 	cursor: pointer;
+	padding: 10px;
+	border: 2px outset white;
+	border-radius: 10px;
+}
+.upload-button:hover, .upload-button:active {
+	background-color: #f3f3f3;
 }
 .upload-button img {
-	width: 64px;
+	width: 48px;
 	opacity: .3;
 }
 
 .file-list {
 	padding: 15px;
+}
+
+.btn-share {
+	color: #6d6dd8 !important;
+}
+
+.alert-success {
+	color: #155724;
+	background: #d4edda;
+	border-color: #a3c1aa;
+	font-size: 16px;
 }
