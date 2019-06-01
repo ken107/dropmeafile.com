@@ -6,8 +6,8 @@
   },
   "devDependencies": {
     "del": "^2.0.2",
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
     "gulp-if": "^2.0.0",
     "gulp-newer": "^1.4.0",
     "gulp-print": "^2.0.1",
