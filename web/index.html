@@ -30,7 +30,15 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/index.css">
 
-  <script src="js/pack.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/jquery.ui.widget.js"></script>
+  <script src="js/jquery.iframe-transport.js"></script>
+  <script src="js/jquery.fileupload.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://assets.lsdsoftware.com/databind.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/index.js"></script>
 </head>
 <body bind-var-state="#bucket.isNew ? (#bucket.files.length ? 1 : 0) : 2"
   bind-statement-1="if (#bucket.files.length) location.href = '#' + #bucket.id">
@@ -39,7 +47,7 @@
       <tr>
         <td>
           Drop Files Here
-        <td>
+        </td>
       </tr>
     </table>
     <div class="file-list">

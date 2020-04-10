@@ -2,9 +2,11 @@
 serviceUrl = location.hostname == "localhost" ? "http://localhost:30112/dropmeafile" : "https://support2.lsdsoftware.com/dropmeafile";
 bucket = null;
 
-$(function() {
+$(window).one("load", function() {
+  setTimeout(function() {
 if (location.hash && location.hash != "#pickup") openBucket(location.hash.substr(1));
 else createBucket();
+  }, 100)
 })
 
 
