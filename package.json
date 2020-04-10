@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "node gulpfile.js",
+    "build": "gulp build",
     "start": "http-server web",
     "deploy": "aws s3 sync --profile=s3 --delete --metadata-directive REPLACE --cache-control max-age=1800,public --exclude pickup web s3://lsdsoftware-websites/dropmeafile.com",
     "deploy-pickup": "aws s3 cp --profile=s3 --metadata-directive REPLACE --cache-control max-age=1800,public --content-type text/html web/pickup s3://lsdsoftware-websites/dropmeafile.com"
