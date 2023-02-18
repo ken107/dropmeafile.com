@@ -15,6 +15,7 @@ function openBucket(bucketId) {
     url: serviceUrl + "/" + bucketId,
     success: function(result) {
       bucket = result;
+      alertPopup.show("ATTENTION: only open files from people you know")
     },
     error: function(xhr) {
       alertModal.show(xhr.responseText, function() {
