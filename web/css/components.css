@@ -22,6 +22,7 @@
 	margin: 5px;
 	text-align: center;
 	vertical-align: top;
+	cursor: pointer;
 }
 .file img {
 	width: 48px;
@@ -91,4 +92,12 @@
 }
 .set-passphrase-dialog .form-label {
 	margin-top: 10px;
+}
+
+
+.confirm-dialog .panel {
+	position: relative;
+	top: -120px;
+	max-width: 400px;
+	margin: 0 auto;
 }

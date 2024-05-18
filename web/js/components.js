@@ -53,6 +53,13 @@ function AlertPopup() {
 function AlertModal() {
 }
 
+function ConfirmDialog() {
+  this.style = "primary"
+  this.title = "Confirm"
+  this.okButtonLabel = "OK"
+  this.cancelButtonLabel = "Cancel"
+}
+
 function PickupDialog() {
 }
 

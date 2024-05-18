@@ -2,11 +2,12 @@
 <div data-class="File" class="file"
   bind-var-ext="this.getExtension(#file.name)"
   bind-statement-1="$(thisElem).toggleClass('pending', !#file.id)">
-  <a target="_blank" bind-statement-1="if (#link) $(thisElem).attr('href', #link)">
+  <span>
     <img bind-statement-1="thisElem.src = this.getIconUrl(#ext)" />
     <div class="fileext" bind-statement-1="$(thisElem).toggle(this.shouldOverlayExt(#ext))">{{#ext}}</div>
-    <div class="filename">{{#file.name}}</div>
-  </a>
+    <div class="filename"
+      bind-statement-1="$(thisElem).css('color', isDangerous(#file.name) ? 'red' : '')">{{#file.name}}</div>
+  </span>
   <div class="progress" bind-statement-1="$(thisElem).toggle(!!#file.progress)">
     <div class="progress-bar progress-bar-success" role="progressbar"
       bind-statement-1="$(thisElem).css('width', (#file.progress||0)*100 + '%')"></div>
@@ -31,6 +32,25 @@
         <strong>Error</strong>
       </div>
       <div class="panel-body">{{#message}}</div>
+    </div>
+  </div>
+</div>
+
+<div data-class="ConfirmDialog" class="confirm-dialog"
+  bind-var-view-root="thisElem"
+  bind-statement-1="$(thisElem).toggle(#visible)">
+  <div class="screen-cover"></div>
+  <div class="center-vertically">
+    <div bind-statement-1="thisElem.className = 'panel panel-' + #style">
+      <div class="panel-heading">
+        <button type="button" class="close" bind-event-click="$(#viewRoot).triggerHandler('close')"><span>&times;</span></button>
+        <strong>{{#title}}</strong>
+      </div>
+      <div class="panel-body">{{#message}}</div>
+      <div class="panel-footer">
+        <button type="button" class="btn btn-primary" bind-event-click="$(#viewRoot).triggerHandler('confirm')">{{#okButtonLabel}}</button>
+        <button type="button" class="btn btn-secondary" bind-event-click="$(#viewRoot).triggerHandler('close')">{{#cancelButtonLabel}}</button>
+      </div>
     </div>
   </div>
 </div>
@@ -114,10 +134,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li bind-statement-1="$(thisElem).toggle(#state == 0)">
+        <li bind-statement-1="$(thisElem).toggle(#state == 'NEW')">
           <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('pick-up')">Here to pick up?</a>
         </li>
-        <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1)">
+        <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 'ADDING')">
           <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button">Change expiration</a>
           <ul class="dropdown-menu">
             <li bind-repeater-i="#expireList.length"
@@ -130,13 +150,13 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 1 || #state == 2)">
+        <li class="dropdown" bind-statement-1="$(thisElem).toggle(#state == 'ADDING' || #state == 'VIEWING')">
           <a href="javascript:void(0)" class="dropdown-toggle btn-share" data-toggle="dropdown" role="button">Share</a>
           <ul class="dropdown-menu">
             <li>
               <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('copy-url')">Copy and share URL</a>
             </li>
-            <li bind-statement-1="$(thisElem).toggle(#state == 1)">
+            <li bind-statement-1="$(thisElem).toggle(#state == 'ADDING')">
               <a href="javascript:void(0)" bind-event-click="$(#viewRoot).triggerHandler('set-passphrase')">Set pickup passphrase</a>
             </li>
           </ul>
@@ -147,7 +167,7 @@
 </nav>
 
 <div data-class="FileUpload">
-  <label class="upload-button" for="fileupload" bind-statement-1="$(thisElem).toggle(#state == 0 || #state == 1)">
+  <label class="upload-button" for="fileupload" bind-statement-1="$(thisElem).toggle(#state == 'NEW' || #state == 'ADDING')">
     <img src="img/upload.png" />
   </label>
   <div style="display: none;">

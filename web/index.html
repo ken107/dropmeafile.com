@@ -40,10 +40,10 @@
   <script src="js/components.js"></script>
   <script src="js/index.js"></script>
 </head>
-<body bind-var-state="#bucket.isNew ? (#bucket.files.length ? 1 : 0) : 2"
+<body bind-var-state="#bucket.isNew ? (#bucket.files.length ? 'ADDING' : 'NEW') : 'VIEWING'"
   bind-statement-1="if (#bucket.files.length) location.href = '#' + #bucket.id">
   <div class="drop-zone">
-    <table class="default-message" bind-statement-1="$(thisElem).toggle(#state == 0)">
+    <table class="default-message" bind-statement-1="$(thisElem).toggle(#state == 'NEW')">
       <tr>
         <td>
           Drop Files Here
@@ -55,7 +55,7 @@
         bind-var-file="#bucket.files[#i]"
         bind-view="File"
         bind-param-file="#file"
-        bind-param-link="#file.id ? (#serviceUrl + '/' + #bucket.id + '/' + #file.id) : null">
+        bind-event-click="downloadFile(#bucket, #file)">
       </div>
     </div>
   </div>
@@ -92,6 +92,16 @@
     bind-param-visible="#alertModal.visible"
     bind-param-message="#alertModal.message"
     bind-event-close="alertModal.hide()">
+  </div>
+  <div bind-view="ConfirmDialog"
+    bind-param-visible="#confirmDialog.visible"
+    bind-param-style="'danger'"
+    bind-param-title="#confirmDialog.title"
+    bind-param-message="#confirmDialog.message"
+    bind-param-ok-button-label="#confirmDialog.okButtonLabel"
+    bind-param-cancel-button-label="#confirmDialog.cancelButtonLabel"
+    bind-event-confirm="confirmDialog.callback(true)"
+    bind-event-close="confirmDialog.callback(false)">
   </div>
 </body>
 </html>

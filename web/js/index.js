@@ -1,5 +1,5 @@
 
-serviceUrl = location.hostname == "localhost" ? "http://localhost:30112/dropmeafile" : "https://support2.lsdsoftware.com/dropmeafile";
+serviceUrl = "https://support2.lsdsoftware.com/dropmeafile";
 bucket = null;
 
 $(window).one("load", function() {
@@ -135,7 +135,7 @@ alertPopup = new function() {
     this.context = context;
     this.visible = true;
     clearTimeout(timer);
-    timer = setTimeout(this.hide.bind(this), 5000);
+    timer = setTimeout(this.hide.bind(this), 7000);
   }
   this.hide = function() {
     this.visible = false;
@@ -155,5 +155,42 @@ alertModal = new function() {
   this.hide = function() {
     this.visible = false;
     if (this.onHide) this.onHide();
+  }
+}
+
+confirmDialog = {
+  visible: false,
+  title: null,
+  message: null,
+  okButtonLabel: null,
+  cancelButtonLabel: null,
+  callback: null,
+  show({title, message, okButtonLabel, cancelButtonLabel}) {
+    return new Promise(fulfill => {
+      this.title = title || "Confirm"
+      this.message = message
+      this.okButtonLabel = okButtonLabel || "OK"
+      this.cancelButtonLabel = cancelButtonLabel || "Cancel"
+      this.callback = fulfill
+      this.visible = true
+    })
+    .finally(() => {
+      this.visible = false
+    })
+  }
+}
+
+function isDangerous(fileName) {
+  return /\.(exe|cmd|bat|vbs|js|zip|rar)$/i.test(fileName)
+}
+
+async function downloadFile(bucket, file) {
+  const confirmOpts = {
+    title: "DANGEROUS FILE",
+    message: "This file CAN HARM your computer if opened. Please ask the person who sent you this file WHY it is included. Do NOT open if you're unsure. Do you still want to open it?",
+    okButtonLabel: "Yes, I'm sure it's safe"
+  }
+  if (!isDangerous(file.name) || await confirmDialog.show(confirmOpts)) {
+    window.open(serviceUrl + '/' + bucket.id + '/' + file.id, "_blank")
   }
 }
